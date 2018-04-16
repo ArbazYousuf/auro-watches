@@ -1,0 +1,18 @@
+define("modules/rlx-num-trad", ["i18n"], function(i18n) { "use strict";
+	var	currentLang = RLX.lang
+	var numTrad = function(numsToTranslate, langs) {
+		langs.forEach(function(lang){
+			if (lang === currentLang) {
+				var nums = Array.prototype.slice.call(numsToTranslate.toString())
+				nums.forEach(function(num, i) {
+					nums[i]= i18n('search/'+num)
+				})
+				numsToTranslate = nums.join('')
+			}
+		})
+		return numsToTranslate
+	}
+	return {
+		numTrad: numTrad
+	}
+})

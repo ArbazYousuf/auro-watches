@@ -1,0 +1,96 @@
+jQuery.fn.isOnScreen = function(){
+	
+	var stickyNavHeight = jQuery("nav.rlx-site-nav").first().height();
+	
+    var viewport = {};
+    
+    viewport.top = jQuery(window).scrollTop() + stickyNavHeight;
+    viewport.bottom = viewport.top + jQuery(window).height();
+    
+    var contentBlock = {};
+    contentBlock.top = this.offset().top;
+    contentBlock.middle = contentBlock.top + (this.outerHeight()/2);
+    	
+	var middleIsInside =  (contentBlock.middle > viewport.top) && (contentBlock.middle < viewport.bottom);
+		
+    return middleIsInside;
+};
+
+// jQuery Scrollstop Plugin v1.2.0
+// https://github.com/ssorallen/jquery-scrollstop
+
+(function (factory) {
+  /*
+  if (typeof define === 'function' && define.amd) {
+    // AMD. Register as an anonymous module.
+    define(['jquery'], factory);
+  } else if (typeof exports === 'object') {
+    // Node/CommonJS
+    module.exports = factory(require('jquery'));
+  } else {
+    // Browser globals
+    factory(jQuery);
+  }
+  */
+  factory(jQuery);
+  
+}(function (jQuery) {
+  var dispatch = jQuery.event.dispatch || jQuery.event.handle;
+
+  var special = jQuery.event.special,
+      uid1 = 'D' + (+new Date()),
+      uid2 = 'D' + (+new Date() + 1);
+    
+  special.scrollstop = {
+    latency: 5000,
+    setup: function(data) {
+      var _data = jQuery.extend({
+        latency: special.scrollstop.latency
+      }, data);
+
+      var timer,
+          handler = function(evt) {
+            var _self = this,
+                _args = arguments;
+
+            if (timer) {
+              clearTimeout(timer);
+            }
+
+            timer = setTimeout(function() {
+              timer = null;
+              evt.type = 'scrollstop';
+              dispatch.apply(_self, _args);
+            }, _data.latency);
+          };
+
+      jQuery(this).bind('scroll', handler).data(uid2, handler);
+    },
+    teardown: function() {
+      jQuery(this).unbind('scroll', $(this).data(uid2));
+    }
+  };
+}));
+
+// Catch scrolling stop event
+jQuery(document).on("scrollstop",function(){
+	
+	// Select all story sections
+	var contentSections = jQuery("section").prev("a[name][data-anchor=true]:not([name=''])").next("section").add(jQuery("section[data-story-name]:not([data-story-name=''])"));
+
+	// Loop on all story sections
+	for (i = 0 ; i < contentSections.length ; i++)
+	{
+		var currElement      = contentSections[i];
+		var currElIsOnScreen = jQuery(currElement).isOnScreen();
+		
+		// Track the story section if it is on screen 
+		if (currElIsOnScreen)
+		{
+			var currElStory = currElement.getAttribute("data-story-name") ? currElement.getAttribute("data-story-name") : currElement.previousElementSibling.name;
+			digitalDataLayer.page.onScreenSection = currElStory;
+			_satellite.track("readingStorySection");
+			// console.log("Track it : " + digitalDataLayer.page.onScreenSection);
+		}
+	}
+});

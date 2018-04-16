@@ -1,0 +1,156 @@
+define('lib/SAppRouter', ["utils", "lib/Router", "modules/rlx-history", "lib/environment", "lib/SAppEventRouter"], function(_, Router, history, env, AppEventRouter){
+  "use strict"
+
+  var singleton = _.singleton
+  var spread = _.slice
+
+  var langs = env.langs
+
+  var AEventRouter = AppEventRouter.SAppEventRouter
+  var eventRouter = new AEventRouter
+  var events = AEventRouter.events
+
+  return singleton(Router, function(Super, statics) {
+
+    var rlang = new RegExp(["^",  "(?:\/)?(?:content\/rolexcom\/(?:\-mobile)?)?(\/(?:", langs.join("|") ,"))(?:\/)?" ].join(""))
+    statics.HISTORY_COMPAT = history.hasPushState
+    statics.backToTop = function(dfd, t) {
+        dfd = jQuery.Deferred()
+        //t = (window.scrollY != 0 ? (window.scrollY < 300 ? 300 : (window.scrollY > 1000 ? 1000 : window.scrollY)) : window.scrollY)
+
+        if (window.scrollY != 0)
+          jQuery(".rlx-global").fadeOut( 250, function() { window.scroll(0, 0), dfd.resolve() }),
+          jQuery("html, body").animate({ "scrollTop" : 0 }, 500)
+        else
+        dfd.resolve()
+
+        return dfd.promise()
+    }
+
+    statics.makeHref = function(path, lang, rlang, cpath) {
+      lang = path.split("/").slice(1)[0]
+
+      // god… this is… counter productive
+      if (lang == env.devMobilePrefix.substring(1))
+        lang = path.split("/").slice(1)[1]
+
+      rlang = langs.indexOf(lang) != -1 ? lang : langs[0]
+      cpath = "/"+location.pathname.split("/").slice(1)[0]
+
+      if (cpath == env.devMobilePrefix)
+        cpath = "/"+location.pathname.split("/").slice(1)[1]
+
+      if ( cpath.indexOf("/"+rlang) == -1 )
+        return [RLX.GLOBALS.features.isMobile ? env.devMobilePrefix+'/' : "/", rlang, location.pathname.replace(env.devMobilePrefix, ''), location.search, location.hash].join("")
+      else
+        return [location.pathname, location.search, location.hash].join("")
+    }
+
+    statics.makeAuthorHref = function(path, lang, rlang, cpath) {
+      return [location.pathname, location.search, location.hash].join("")
+    }
+
+    return {
+      constructor : function(routes){
+        Super.call(this)
+        void function(self, i, l) {
+          var curr = self._curr || (self._curr = document.createElement("a"))
+
+          function dispatch() { return self.dispatch.apply(self, arguments) }
+          function reload() { return self.reload.apply(self, arguments) }
+
+          self.dispatch = function(force, href, rv, next){
+              next = document.createElement("a")
+
+              href = !!~location.pathname.indexOf('/content/rolexcom') ? statics.makeAuthorHref( location.pathname ) : statics.makeHref( location.pathname )
+
+              if (next.href = href+location.hash, !force && curr && (curr.pathname+curr.search+curr.hash)  === (next.pathname+next.search+next.hash) ) {
+                  if (env.debugJS) console.log("approuter: blocking same pathname dispatch")
+                    return
+              }
+
+              curr.href = href
+              next = null
+
+              env.debugJS && console.log("dispatching route", href)
+
+              if ( rv = self.constructor.prototype.dispatch.call(self, href), !rv ) {
+                if (env.debugJS)
+                    console.log("no route", href)
+              }
+          }
+
+
+          self.reload = function(href, rv, next) {
+                next = document.createElement("a")
+
+                href = !!~location.pathname.indexOf('/content/rolexcom') ? statics.makeAuthorHref( location.pathname ) : statics.makeHref( location.pathname )
+                console.log(href)
+                //console.log('foo href == ',href)
+                setTimeout(function(){
+                  if ( next.href = href, curr && (curr.pathname+curr.search)  === (next.pathname+next.search) )
+                      if ( rv = self.constructor.prototype.dispatch.call(self, href), !rv )
+                          if (env.debugJS)
+                              console.log("This route is not binded on Router ", href)
+                }, 500)
+
+          }
+
+
+          function onevent(e, node, anchor, href) {
+
+              if ( !e || !document.body.contains(e.target) )
+                return
+
+              node = e.target
+
+              while ( node ) {
+                  if (node && node.tagName === "A") {
+                      anchor = node
+                      break
+                  } else if ( node && node.nodeType === 1 && (href = node.getAttribute("data-route-href"), !!href) ) {
+                      anchor = document.createElement("a")
+                      anchor.href = href
+                      break
+                  } else node = node.parentNode ? node.parentNode : null
+              }
+
+              if (anchor && anchor.pathname === location.pathname && anchor.href.substring(anchor.href.length-1) === "#")
+                return
+
+              if (anchor && anchor.host === "")
+                anchor.host = location.host
+
+              if ( !anchor || anchor.host !== location.host )
+                return
+
+            if ( anchor.hasAttribute("data-target-spa")) {
+                e.preventDefault(), history.pushState({}, null, anchor.href), dispatch()
+            } else if ( anchor.hasAttribute("data-reload-spa")) {
+                e.preventDefault(), setTimeout(function(){reload()}, 300)
+            } else if (!!anchor.hasAttribute("data-target-ntab") ) {
+                e.preventDefault()
+                window.open(anchor.href)
+                return false
+            }
+          }
+
+          if ( typeof window.addEventListener == "function" )
+            window.addEventListener("click", onevent , true)
+
+          routes = routes || []
+          for ( i = 0, l = routes.length; i < l; i++ )
+            env.debugJS && console.log("adding route for ", routes[i].path[env.server], env.device),
+            self.when(routes[i].path[env.server], routes[i].handleRoute[env.device])
+
+          setTimeout(function(){
+            self.ready = true
+            eventRouter.dispatch(events.routerReady)
+            history.register(dispatch)
+            dispatch()
+          }, 16)
+        }(this)
+      }
+    }
+  })
+})

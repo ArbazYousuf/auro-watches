@@ -1,0 +1,372 @@
+                        /*Welcome to Style Sheet (AuraWatches)*/
+
+.logodiv {
+
+
+}
+.logo {
+    height: 100px;
+    width: 100px;
+    margin-left: 50px;
+    display: inline-block
+}
+.compname {
+    margin-left: 400px;
+    display: inline-block
+}
+.icu {
+    color: white;
+    background-color:red;
+}
+#socialicon {
+    display: inline-block;
+}
+.a1{
+    height: 20px;
+    width: 20px;
+}
+.a2{
+    height: 30px;
+    width: 30px;
+}
+.search{
+    width: 300px;
+    height: 30px;
+    border: 2px solid lightgrey;
+    border-radius: 5px;
+}
+.searchb{
+    height: 60px; 
+    width: 60px
+}
+#searchbox{
+    /*display: none;*/
+}
+.linebrk{
+    width:80%; 
+    margin-left: 10%;
+    margin-right: 10%;
+    
+}
+.Slist{
+    
+    list-style: none;
+}
+.navupline{
+    width: 70%;
+    height: 5px;
+    background-color: black;
+    margin-top: -20px;
+    margin-left: 15%;
+    margin-right: 15%;
+}
+.navb{
+    margin-left: 100px;
+}
+#apnanav{
+    margin-left: 19%;
+    margin-right: 19%;
+    margin-top: 5px;
+}
+
+#apnanav ul li .border {
+    padding-right: 30px;
+    padding-left: 30px;
+    border-right: 3px solid black;
+}
+
+/*slider*/
+ .mySlides {display:none;
+  position: absolute;}
+  .city {display:none}
+.Aboutteam{
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+  height: 450px;
+  background-color:rgb(238,238,238);
+}
+
+.w3-section {
+    margin-top: 0px!important;
+    margin-bottom: 16px!important;
+}
+w3-dropdown-content:hover .w3-navbar{
+  font-size: black;
+}
+  body::-webkit-scrollbar {
+    width: 0.6em;
+}
+ 
+body::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+ 
+body::-webkit-scrollbar-thumb {
+  background-color: black;
+  outline: 1px solid white;
+}
+#bg{
+  background-color: whitesmoke;
+}
+.logoos {
+    height: 100px;
+    width: 150px;
+    opacity: 0.3;
+    margin: 0% 3%;
+    cursor: pointer;
+}
+.brandlogo{
+    width: 100%;
+    margin-left: 7%;
+    margin-right: 10%;
+    margin-bottom: 50px;
+}
+.logoos:hover{
+    opacity: 0.9;
+}
+.ourbrands{
+    letter-spacing: 10px;
+    font-family: 'Advent Pro', sans-serif;
+    text-align: center;
+    font-size: 60px;
+    margin-bottom: 20px;
+    
+}
+.form2{
+    width: 300px;
+}
+.section2{
+    /*background-image: url('pictures/pictures/divback.jpg');*/
+    width: 100% ;
+    
+}
+.sharewhole{
+    height:150px;
+}
+.share {
+    display: inline-block;
+    float: right;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}cfh i {
+
+}
+.pic3div{
+background-image: url('../pictures/pictures/banner.jpg');
+width: 100%;
+height: 500px;
+background-size: 100% 100%;
+}
+.picinnerH{
+    font-stretch: 10px;
+    font-size-adjust: 10px;
+}
+.txt1{
+    color: white;
+    margin-left:400px;
+    text-align: center;
+    margin-top: 25px;
+    font-size: 20px;
+}
+.list1 li {
+    margin-bottom: 15px;
+}
+.list1{
+    margin-left: 500px;
+    
+    color: white;
+    list-style-image: url('../pictures/pictures/check.png');
+
+}
+.mainnl{
+    height: 150px;
+}
+.newsletter{
+    margin: 20px 150px ;
+}
+.newsletterdiv{
+    display: inline-block;
+    border-top-right-radius: 50px ;
+    border-bottom-right-radius: 5px ;
+    float: left;
+    width: 50%;
+    background-color: black;
+    height: 100%;
+}
+.hi{
+    margin: 0px 20px;
+}
+@font-face{
+    font-family: krinkle;
+    src: url(../font/KrinkesDecorPERSONAL.ttf);
+}
+@font-face{
+    font-family: Fire;
+    src:url(../font/chicle-regular.ttf);
+}
+.social1{
+    font-family: fire;
+    display: inline-block;
+    margin: 20px 0px;
+    float: right;
+    width: 50%;
+    height: 100%;
+    /*padding-top: 20px;*/
+    /*background-color: red;*/
+}
+.inbox{
+    width: 250px;
+    border: 2px solid black;
+    font-style: oblique;
+    border-radius: 10px;
+    height: 35px;
+}
+.subm{
+    op
+    background-color: limegreen;
+    height: 40px;
+    width:100px;
+    border-radius: 10px;
+    margin-left: 10px;
+    font-size: 22px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif
+}
+.subscribenl{
+    margin-top: px;
+    font-size: 28px;
+    text-align: center;
+    color: white;
+}
+.fupd{
+    font-size: 24px;
+    text-align: center;
+    color: white;
+}
+.hrline{
+    margin-left: 15%;
+    margin-right: 15%;
+    width: 70%;
+    height: 5px;
+    background-color: rgb(132,132,132);
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+.register {
+    width: 100%;
+    height: 30px;
+    background-color: #e3f3f4;
+    /*margin-top: px;*/
+}
+.footer {
+            background-image: url(pictures/pictures/footer.jpg)
+}
+
+.brandtag td{
+    
+    color: black;
+    padding:10px 30px 10px 30px;
+    cursor: pointer;
+}
+.brandtag td:hover{
+    
+    font-size:20px; 
+}
+#bgfoot{
+    background-image: url('pictures/pictures/teaser_instagram.jpg');
+    height: 100%;
+}
+
+
+.formm{
+    margin: 2% 10%;
+}
+.formm input{
+    background-color: transparent;
+    color: #D8D8D8;
+    border: 1px solid rgba(255,255,255,0.2);
+    
+    padding: 5px 15px;
+    margin-bottom: 10px;
+    margin-top: 10px;
+    height: 50px;
+     text-decoration: none;
+  outline: none;
+  position: relative;
+    width: 300px;
+    border
+}
+.promain {
+    width:100%;
+    height:400px;
+}
+.product{
+    width: 22%;
+    margin: 0.5%;
+    height: 300px;
+    display: inline-block;
+    background-color: red;
+}
+.rlogo{ width: 100%; height: 200px;  }
+
+.rlogo img{ height: 100%; margin-left: 36%;}
+.rdes{width: 80%;margin-left: 10%;margin-right:10%; height: 200px}
+.rcont{width: 100%; height: 1500px;}
+
+.rrow1{ width: 100%; height: 500px;} 
+
+.rrow2{ width: 100%; height: 500px; } 
+
+.rrow3{ width: 100%; height: 500px;} 
+
+.rbox{ width: 25%; height:  90%; text-align: center; margin-top: 2%; float: left; border:3px black groove; margin-left: 6%;}
+
+.rbox img{ width: 80%; height: 70%;  margin-top:  5%;}
+.rbox button{  border:3px black groove; background-color: white; padding: 10px; width: 120px;}
+.rbox button:hover{ background-color: black; color: white;cursor: pointer;}
+.downlist{background-image: url('../pictures/pictures/teaser_instagram.jpg');background-repeat: no-repeat;background-position: center;background-attachment: fixed;width: 100%;height:200px;background-color: gainsboro; }
+.plist{ border: 3px black groove;width: 25%; display: inline-block;margin-left: 39%;margin-top: 2%;background-color: black; color: white; cursor: pointer;
+}
+.plist h1{
+font-size: 18px;
+text-align: center
+
+}
+.plist:hover{
+    background-color: white;
+    font-size: 20px;
+    color: black;
+    cursor: pointer;
+}
+.downlist p {
+    width:80%;
+    padding-left: 30%;
+    padding-top: 4%;
+    color: white;
+
+}
+.bgg{
+    background-image: url('../pictures/pictures/bg.jpg');background-repeat: no-repeat;background-position: center;background-attachment: fixed;width: 100%;height:400px;background-color: gainsboro;
+}
+.amain{
+    width: 100%;
+    height: 0px;
+}
+.apart{
+    width: 25%;
+    height:;
+    border: 3px groove black;
+    display: inline-block;
+    margin-left: 17%;
+}
+.apart img {
+    width:80%;
+    height: 250px;
+    
+}
+#cnam{
+    border:1px dotted black;padding:3%;width:80%;font-size:12px;margin:1%;
+}
+.rb{
+    border:1px dotted black;padding:3%;width:80%;font-size:12px;margin:1%;
+}

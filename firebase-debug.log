@@ -1,0 +1,66 @@
+[debug] [2018-04-16T13:56:53.257Z] ----------------------------------------------------------------------
+[debug] [2018-04-16T13:56:53.257Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Arbaz Yousuf\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase deploy
+[debug] [2018-04-16T13:56:53.257Z] CLI Version:   3.18.4
+[debug] [2018-04-16T13:56:53.257Z] Platform:      win32
+[debug] [2018-04-16T13:56:53.257Z] Node Version:  v8.9.1
+[debug] [2018-04-16T13:56:53.257Z] Time:          Mon Apr 16 2018 18:56:53 GMT+0500 (Pakistan Standard Time)
+[debug] [2018-04-16T13:56:53.257Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-04-16T13:56:53.318Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-04-16T13:56:53.318Z] > authorizing via signed-in user
+[debug] [2018-04-16T13:56:53.322Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2018-04-16T13:56:53.322Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ { refresh_token: '1/m8V-agwJZqzmj4Umb3wenvJCLPb41u_La0N6job2RqBP2NI8C7pLWJEoLqBDqj9Q',
+  client_id: '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
+  client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
+  grant_type: 'refresh_token',
+  scope: 'email https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid' } 
+ Mon Apr 16 2018 18:56:53 GMT+0500 (Pakistan Standard Time)
+[debug] [2018-04-16T13:56:53.841Z] <<< HTTP RESPONSE 200
+[debug] [2018-04-16T13:56:53.910Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/auro-watches  
+  
+ Mon Apr 16 2018 18:56:53 GMT+0500 (Pakistan Standard Time)
+[debug] [2018-04-16T13:56:55.559Z] <<< HTTP RESPONSE 200
+[debug] [2018-04-16T13:56:55.559Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/auro-watches/tokens  
+  
+ Mon Apr 16 2018 18:56:55 GMT+0500 (Pakistan Standard Time)
+[debug] [2018-04-16T13:56:56.573Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Deploying to 'auro-watches'...
+[info] 
+[info] i  deploying hosting
+[info] i  hosting: preparing public directory for upload...
+[debug] [2018-04-16T13:57:30.610Z] >>> HTTP REQUEST PUT https://deploy.firebase.com/v1/hosting/auro-watches/uploads/-LADjd4Zb3hxeEf26hJH?fileCount=451&message=  
+  
+ Mon Apr 16 2018 18:57:30 GMT+0500 (Pakistan Standard Time)
+[debug] [2018-04-16T14:22:33.977Z] Error: write ECONNRESET
+    at _errnoException (util.js:1024:11)
+    at WriteWrap.afterWrite [as oncomplete] (net.js:867:14)
+[error] 
+[error] Error: Server Error. write ECONNRESET
+[debug] [2018-04-16T14:24:44.750Z] ----------------------------------------------------------------------
+[debug] [2018-04-16T14:24:44.753Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Arbaz Yousuf\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase deploy
+[debug] [2018-04-16T14:24:44.754Z] CLI Version:   3.18.4
+[debug] [2018-04-16T14:24:44.754Z] Platform:      win32
+[debug] [2018-04-16T14:24:44.754Z] Node Version:  v8.9.1
+[debug] [2018-04-16T14:24:44.755Z] Time:          Mon Apr 16 2018 19:24:44 GMT+0500 (Pakistan Standard Time)
+[debug] [2018-04-16T14:24:44.755Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-04-16T14:24:44.776Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-04-16T14:24:44.778Z] > authorizing via signed-in user
+[debug] [2018-04-16T14:24:44.783Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/auro-watches  
+  
+ Mon Apr 16 2018 19:24:44 GMT+0500 (Pakistan Standard Time)
+[debug] [2018-04-16T14:24:48.611Z] <<< HTTP RESPONSE 200
+[debug] [2018-04-16T14:24:48.611Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/auro-watches/tokens  
+  
+ Mon Apr 16 2018 19:24:48 GMT+0500 (Pakistan Standard Time)
+[debug] [2018-04-16T14:24:50.702Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Deploying to 'auro-watches'...
+[info] 
+[info] i  deploying hosting
+[info] i  hosting: preparing public directory for upload...
+[debug] [2018-04-16T14:25:09.054Z] >>> HTTP REQUEST PUT https://deploy.firebase.com/v1/hosting/auro-watches/uploads/-LADq0n6Sp_x7hclXBuH?fileCount=451&message=  
+  
+ Mon Apr 16 2018 19:25:09 GMT+0500 (Pakistan Standard Time)

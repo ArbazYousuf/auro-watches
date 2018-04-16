@@ -1,0 +1,198 @@
+define("lib/SAppEventRouter", ["utils", "lib/Router", "lib/SEventRouter", "lib/environment"], function(_, Router, EventRouter, env) {
+  "use strict"
+
+var spread = _.slice
+      , singleton = _.singleton
+      , events = {
+            domChange: "/dom/change"
+
+          , routerReady: "/apppouter/ready" // []
+          , routerRoute: "/apppouter/route" // [ route yield ]
+          , routerNoRoute: "/approuter/noroute" // []
+
+          , appZViewReady: "/appzview/ready" // []
+          , appZViewInitialSwap: "/appzview/initialswap" // []
+
+          , appWillRender: "/app/willrender" // [new node]
+          , appSwap: "/app/swap" // [new node]
+          , appReady: "/app/ready"
+          , appBeforeSwap : "/app/beforeSwap"
+          , appPrepareSwap : "/app/prepareSwap"
+          , appAfterSwap : "/app/afterSwap"
+          , appRemoveContent : "/app/removeContent"
+          , appAppendContent : "/app/appendContent"
+
+          , socialFeedAppReady : "/app/socialFeed/ready"
+          , socialFeedLoadMore : "/socialFeed/loadMore"
+          , socialFeedDataReady : "/socialFeed/dataReady"
+          , socialFeedDomReady : "/socialFeed/domReady"
+          , socialFeedLoadData : "/socialFeed/loadData"
+          , socialFeedLoadWatchData : "/socialFeed/loadWatchData"
+          , socialFeedRemoveMoreButton : "/socialFeed/removeMoreButton"
+          , socialFeedButtonSpinner : "/socialFeed/buttonAddSpinner"
+          , socialFeedButtonRemoveSpinner : "/socialFeed/buttonRemoveSpinner"
+          , socialFeedToggleDisableClick : "/socialFeed/socialFeedToggleDisableClick"
+          , socialFeedOpenPopin : "socialFeed/popin/show"
+          , socialFeedCloseMobilePopin : "socialFeed/mobilePopin/hide"
+          , socialFeedNextPopin : "socialFeed/popin/next"
+          , socialFeedPrevPopin : "socialFeed/popin/prev"
+          , socialFeedNavNextPost : "socialFeed/popin/nav/next"
+          , socialFeedRemovePopinEvents : "socialFeed/remove/events"
+          , socialFeedUpdateContentPopin : "socialFeed/update/popin"
+          , socialFeedSwapContentPopin :  "socialFeed/swap/popin"
+          , socialFeedSwapLoaderPopin : "socialFeed/swap/loader"
+          , socialFeedRemoveOverlay : "socialFeed/overlay/remove"
+          , socialFeedLoadVideoAfterPopinCreation : "socialFeed/load/video"
+
+          , windowResize : "/win/resize" // [window]
+          , windowScroll : "/win/scroll" // [window]
+
+          , breadcrumbZViewReady: "/breadcrumbzview/ready" // []
+          , breadcrumbZViewSwap: "/breadcrumbzview/swap" // []
+          , breadcrumbClick: "/breadcrumb/click" //( [ anchor ] )
+
+          , collectionReset: "collection/watches/reset/"
+
+          , navWatchesReload: "/nav/watches/reload"
+
+          , filterReset: "/page/watches/filters/reset"
+          , filterSelect: "/page/watches/filters/select"
+          , filterChange: "/page/watches/filters/change"
+          , filterWatches: "/page/watches/filters/filter"
+          , filterHeightChange: "/page/watches/filters/resize"
+
+          , navFilterReset: "/nav/watches/filters/reset"
+          , navFilterChange: "/nav/watches/filters/change"
+          , navFilterWatches: "/nav/watches/filters/filter"
+          , navFilterCollection: "/nav/watches/filters/collection"
+          , navFamilyBeforeChange: "/nav/watches/family/beforechange"
+          , navFamilyChange: "/nav/watches/family/change"
+          , navFilterHeightChange: "/nav/watches/filters/resize"
+
+          , searchFilterReset: "/nav/search/filters/reset"
+          , searchFilterCollection: "/nav/search/filters/collection"
+
+          , browseWatchesReady: '/nav/watches/ready'
+
+          , searchWillSearch: '/search/will/search'
+          , searchHasSearched: '/search/has/searched'
+          , searchWillRender: '/search/will/render'
+          , searchWontRender: '/search/wont/render'
+          , searchReady: '/search/ready'
+
+          , hubWillRender: '/hub/will/render'
+          , hubWontRender: '/hub/wont/render'
+          , hubAbort: '/hub/abort'
+          , hubFilters: '/hub/filters'
+          , hubReady: '/hub/ready'
+
+          , summaryClick : "/summary/click" //( [ anchor ] )
+          , priceClick : "price/click"
+          , retailerClick : "/retailer/click" //( [ anchor ] )
+          , ctaconfigureClick : "/configure/click" //( [ anchor ] )
+          , configClick : "/configure/click" //( [ anchor ] )
+          , wlClick : "/wishlist/click" //( [ anchor ] )
+          , shareClick : "/social/click" //( [ anchor ] )
+          , geolocClick : "/geoloc/click" //( [ anchor ] )
+
+          , configuratorClick : "configurator/click" //( [ anchor ] )
+          , configOpen : "configuratorOpen/click"
+          , configClose : "configuratorClose/click"
+          , configChangeTypeVariations : "configurator/change/vars/click"
+          , configContentReady : "configuratorContentReady/Click"
+          , buttonListClick : "buttonList/click" //( [anchor] )
+          , configButtonInfoClick : "buttonInfo/click" //( [anchor] )
+          , revealCompleteSpecsClick : "specs/reveal/click"
+          , configStylesOpened : "configurator/styles/set"
+          , configStylesReset : "configurator/styles/reset"
+          , toggleViewMore : "revealmoredetails"
+          , specsReset : "resetEventsSpecs/reset"
+          , scrollTablet : "tabletMode/scroll"
+          , openPriceInfo : "price/opensidebar/click"
+
+          , modelSharingPopinClick : "openPopinShareByMail/click"
+          , modelSocialClick : "configurator/share/socialButton/click"
+          , modelAutoScroll : "modelpage/scroll/auto"
+          , modelContainerMapReady : "modelpage/containerReady"
+          , modelCtaChangeContent : "modelpage/cta/content/Change"
+
+          , priceInfoActive : "price/info/active"
+          , priceInfoInactive : "price/info/inactive"
+
+          , ctaToggleEvent : "cta/all/toggle"
+          , ctaItemChange : "cta/item/change"
+          , ctaWishlistAdd : "cta/wishlist/add"
+          , ctaWishlistRemove : "cta/wishlist/remove"
+          , ctaWishlistCheck : "cta/wishlist/check"
+          , ctaWishlistActive : "cta/wishlist/active"
+          , ctaWishlistInactive : "cta/wishlist/inactive"
+          , ctaWishlistChangeView : "cta/wishlist/changeview"
+
+          , locatorSWAP: "locator/swap"
+          , locatorPushState: "locator/pushstate"
+          , locatorReplaceState: "locator/replacestate"
+          , locatorPopState: "locator/popstate"
+
+          , requestGeolocation: "locator/geolocate"
+          , hasBeenGeolocated: "locator/geolocated"
+
+          , xhrSuccess: "/xhr/success" // [ jqXHR ]
+          , xhrError: "/xhr/error" // [ jqXHR ]
+          , xhrComplete: "/xhr/complete" // [ jqXHR ]
+
+          , broadcastModel: "/user/model/hit"
+          , modelOutbound: "/user/model/outbound"
+
+          // wishlistPage
+          , wishlistDomReady : "/wishlist/dom/ready"
+          , wishlistCTAPrice : "/wishlist/cta/price"
+          , wishlistCTAShare : "/wishlist/cta/share"
+          , wishlistCTARemove : "/wishlist/cta/remove"
+          , wishlistCTAClick : "/wishlist/cta/click"
+          , wishlistCTAClose : "/wishlist/cta/close"
+          , wishlistCTAClosePrice : "/wishlist/cta/close-price"
+          , wishlistCTAReset : "/wishlist/cta/reset-price"
+          , wishlistSocialPopinOpen : "/wishlist/social/popin/open"
+          , wishlistSocialPopupOpen : "/wishlist/social/popup/open"
+          , wishlistRemoveWatch : "/wishlist/remove-watch"
+          , wishlistReload : "/wishlist/reload-page"
+          , wishlistUpdateSize : "/header/menu/updateWishlistSize"
+
+          // userland (sidebar)
+          , sidebarAccountReady : "/account/ready"
+          , sidebarAccountKill : "/account/kill"
+          , sidebarAccountSwitchBar : "/account/bar/switch"
+          , sidebarAccountSwitchBarRemove : "/account/bar/remove"
+          , sidebarAccountLogout : "/account/logout"
+          , headerUpdateUsername  : "/header/menu/updateUsername"
+
+            // STORELOC
+          , locatorToggle: '/storeloc/ui/toggle'
+
+          // CelliniZView
+          , celliniCTARetailerClick : "/cellini/cta/retailer/click"
+          , celliniCTAWishlistClick : "/cellini/cta/wishlist/click"
+          , celliniCTAShareClick : "/cellini/cta/share/click"
+
+          , cinemaAppReady : "/cinema/app/ready"
+          , cinemaLayerClick : "/cinema/layer/click"
+          , cinemaMute : "/cinema/mute"          
+          , cinemaPlay : "/cinema/play"          
+          , cinemaPause : "/cinema/pause"
+          , cinemaEnd : "/cinema/end" 
+          , cinemaReplay : "/cinema/replay"
+          , cinemaReplayAction : "/cinema/replayaction"
+
+          // Sharing module
+          , shareReloadContent : "/share/content/reload"
+
+    }
+
+  EventRouter.SEventRouter.defineEvent(events)
+
+  return {
+      SAppEventRouter : EventRouter.SEventRouter
+    , eventRouter : EventRouter.eventRouter
+  }
+
+})

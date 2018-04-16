@@ -1,0 +1,478 @@
+(function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+"use strict"
+
+var $ = jQuery
+var env = requirejs("lib/environment")
+var hashcode = require("./hash")
+var history = requirejs("modules/rlx-history")
+var klass = requirejs("utils").classMaker
+var spread = requirejs("utils").slice
+var serialize = requirejs("utils").serialize
+var unserialize = requirejs("utils").unserialize
+var UID = requirejs("lib/UID")
+
+var Cookie = requirejs("lib/Cookie")
+var SEventRouter = requirejs("lib/SEventRouter").SEventRouter
+
+var NAVRESET_EVT = "/nav/watches/filters/reset"
+var NAVRESET_VOL_EVT = "/nav/watches/family/beforechange" // target a user click, not a "programmatic" event
+var HUBRESET_EVT =  "/page/watches/filters/reset"
+var SEARCHRESET_EVT = "not_implemented"
+var SEARCH_EVT = "/search/will/search"
+
+module.exports.SUserDataCookie = klass(Cookie, function(Super, statics){
+    statics.COOKIE_NAME = "__ud"
+    statics.R_HASH = /__ud=\{(.*)\}/
+    statics.HKEY = "ud"
+
+    return {
+        constructor: function(){
+            Cookie.call(this, this.cookieName())
+        }
+      , cookieName: function(){
+            return this.constructor.COOKIE_NAME
+        }
+      , getLocationHash: function(key){
+            var hash = (this.rhash().exec(location.hash || "")||[])
+
+            return {
+                str: hash[0]
+              , data: unserialize(hash[1]||"")
+            }
+        }
+      , setLocationHash: function(key, value){
+            return // not used right now
+            var hash = this.getLocationHash()
+            var nhash
+            hash.data[key] = value
+
+            nhash = [this.hashkey(), "={", serialize(hash.data), "}"].join("")
+
+            if ( hash.str && hash.str.length )
+              location.hash = location.hash.replace(hash.str, nhash)
+            else {
+              if ( !location.hash.length  )
+                location.hash = nhash
+              else
+                location.hash = location.hash+"&"+nhash
+            }
+        }
+      , hashkey: function(){
+            return this.constructor.HKEY
+        }
+      , rhash: function(){
+            return this.constructor.R_HASH
+        }
+    }
+})
+
+
+module.exports.SUserSessionDataCookie = klass(module.exports.SUserDataCookie, function(Super, statics){
+    statics.COOKIE_NAME = "__uds"
+    statics.R_HASH = /uds=\{(.*)\}/
+    statics.HKEY = "uds"
+    statics.MAP = "xxyxxy"
+
+    return {
+        constructor: function(){
+            Cookie.call(this, this.cookieName(), { session: true })
+
+            window.__uds = this
+
+            void function(self){
+                var forgetGrid = true
+
+
+                //set last seen grid
+                window.addEventListener("beforeunload", function(e) {
+                    if ( !!$(".rlx-grid-watches:not(.rlx-ui-pane .rlx-grid-watches):not(.rlx-page-home .rlx-grid-watches)").length )
+                      forgetGrid = false,
+                      self.set("lg", [location.pathname, location.search, location.hash].join(""))
+
+                    if ( forgetGrid )
+                      self.set("lg", "")
+
+                })
+
+                //set if coming from nav
+                new SEventRouter().when("/user/nav/outbound", function(next, vars){
+                    //keep it synchronous
+                    self.set("fn", 1)
+                    next()
+                })
+
+                new SEventRouter().when("/user/backto/request", function(next, vars){
+                    var last = self.last()
+                    last = last == "nav" ? false : last
+                    var fn = !!last && last == "nav" ? function(e){
+                                return
+                                e && e.preventDefault && e.preventDefault()
+                             }
+                           : !!last ? function(e){
+                                e && e.preventDefault && e.preventDefault()
+
+                                window.location = last
+                            }
+                          : function(){}
+
+                    new SEventRouter().dispatch("/user/backto/response", !!last, fn)
+                    next()
+                })
+
+
+
+                // set last seen model
+                new SEventRouter().when("/user/model/hit", function(next, vars){
+                    self.set("lw", [location.pathname, location.search, location.hash].join(""))
+                    forgetGrid = false
+                    next()
+                })
+
+                // set if coming from view all from model page
+                new SEventRouter().when("/user/model/outbound", function(next, vars){
+                    //keep it synchronous
+                    self.set("fw", 1)
+                    next()
+                })
+
+                new SEventRouter().when("/user/backtomodel/request", function(next, vars){
+                    var fw = self.fromWatch()
+                    var ls = self.lastWatch()
+                    var fn = fw && ls ? function(e){
+                                e && e.preventDefault && e.preventDefault()
+                                window.location = ls
+                             }
+                           : function(){}
+
+                    new SEventRouter().dispatch("/user/backtomodel/response", !!fw, fn)
+                    next()
+                })
+
+                new SEventRouter().when(HUBRESET_EVT, function(next){
+                    if ( self.current() )
+                      self.set(self.current()+".fi", [])
+
+                      next()
+                })
+
+                new SEventRouter().when("/user/filters/:component/filter/:hash/:state", function(next, vars){
+                    var component = vars.component
+                    if ( !self[component] )
+                      return next()
+
+                    if ( !self.current() )
+                      self.createSession()
+
+                    var args = spread(arguments, 2)
+                    var hash = vars.hash
+                    var state = !!(+vars.state)
+
+                    self[component](hash, state)
+
+                    next()
+                })
+
+                new SEventRouter().when("/user/filters/:component/request/:hash", function(next, vars){
+                    return next()
+
+                    var args = spread(arguments, 2)
+                    var component = vars.component
+                    var hash = vars.hash
+                    var hit = false
+
+                    var hubFilterBuffer
+                    var hubFilterBufferTimer
+
+                    if ( component == "hubFilter" ) {
+                        if ( !self.current() )
+                          self.createSession()
+
+                        void function(){
+                            hubFilterBuffer = hubFilterBuffer || self.get(self.current()+".fi") || []
+                            clearTimeout(hubFilterBufferTimer)
+                            hubFilterBufferTimer = setTimeout(function(){ hubFilterBufferTimer = null }, 4)
+                        }()
+                        hit = hubFilterBuffer.indexOf(hash) != -1
+                        new SEventRouter().dispatch(module.exports.SUserNavDataCookie.getResStateEvtStr(component, hash, hit))
+                    }
+
+                    next()
+                })
+
+                // set if coming from nav
+                // or last seen grid
+                if ( +self.get("fn") )
+                  self._last = "nav"
+                else if ( !!self.get("lg") )
+                  self._last = self.get("lg")
+
+                //unset for next page hit
+                self.set("fn", 0)
+
+                //set last watch seen
+                if ( self.get("lw") )
+                  self._lastWatch = self.get("lw")
+
+                //set if coming directly from "view all xxx" on model page
+                if ( +self.get("fw") )
+                  self._fromWatch = !!(+self.get("fw"))
+
+                //unset for next page hit
+                self.set("fw", 0)
+            }(this)
+        }
+      , _lastWatch: null
+      , _fromWatch: null
+      , fromWatch: function(){
+            return !!this._fromWatch
+        }
+      , lastWatch: function(){
+            return this._lastWatch
+        }
+
+      , _last: null
+      , last: function(){
+            return this._last
+        }
+      , _current: null
+      , current: function(){
+            return this._current
+        }
+      , createSession: function(){
+            return function(self){
+
+                if ( self.getLocationHash().data && self.getLocationHash().data.s )
+                  self._current = self.getLocationHash().data.s
+                else
+                  self.setLocationHash("s", self._current = UID.uid({ map: module.exports.SUserSessionDataCookie.MAP }))
+
+                if ( history.hasReplace )
+                  history.replaceState(null, "", location.href)
+
+                var fa = self.current()+".fa"
+                var fi = self.current()+".fi"
+
+                self.hook(fa, function(v){
+                    if ( !v.state && self.get(fa) == v.hash )
+                      return null
+                    else
+                      if ( v.state )
+                        return v.hash
+                })
+
+                self.hook(fi, function(v){
+                    if ( v && $.isArray(v) )
+                      return v
+                    if ( v && v.constructor !== Object )
+                      return self.get(fi) || []
+
+                    var arr = self.get(fi) || []
+                    var idx = arr.indexOf(v.hash)
+
+                    if ( idx == -1 && v.state )
+                      arr.push(v.hash)
+                    else if ( idx != -1 && !v.state )
+                      arr.splice(idx, 1)
+
+                    return arr
+                })
+            }(this)
+        }
+      , hubFilter: function(hash, state){
+            this.set(this.current()+".fi", {hash: hash, state: state})
+        }
+      , hubFamily: function(hash, state){
+            this.set(this.current()+".fa", {hash: hash, state: state})
+        }
+    }
+})
+
+module.exports.SUserNavDataCookie = klass(module.exports.SUserDataCookie, function(Super, statics){
+    statics.COOKIE_NAME = "__udn"
+    statics.R_HASH = /udn=\{(.*)\}/
+
+    statics.getResStateEvtStr = function(component, hash, state){
+        return ["/user/filters/", component, "/response/", hash, "/", state?"1":"0"].join("")
+    }
+
+    return {
+        constructor: function(){
+            Cookie.call(this, this.cookieName(), { session: true })
+
+            window.__udn = this
+
+            void function(self){
+
+                new SEventRouter().when("/user/filters/:component/filter/:hash/:state", function(next, vars){
+                    var component = vars.component
+
+                    if ( !self[component] )
+                      return next()
+
+                    var args = spread(arguments, 2)
+                    var hash = vars.hash
+                    var state = !!(+vars.state)
+
+                    self[component](hash, state)
+
+                    next()
+                })
+
+                var navFilterBuffer
+                var navFilterBufferTimer
+                var searchFilterBuffer
+                var searchFilterBufferTimer
+                var famBuffer
+                var famBufferTimer
+
+                new SEventRouter().when("/user/filters/:component/request/:hash", function(next, vars){
+                    return next()
+
+                    var args = spread(arguments, 2)
+                    var component = vars.component
+                    var hash = vars.hash
+                    var hit = false
+
+                    if ( component === "navFilter" ) {
+                        void function(){
+                            navFilterBuffer = navFilterBuffer || self.get("fi") || []
+                            clearTimeout(navFilterBufferTimer)
+                            navFilterBufferTimer = setTimeout(function(){ navFilterBuffer = null }, 4)
+                        }()
+                        hit = navFilterBuffer.indexOf(hash) != -1
+                        new SEventRouter().dispatch(module.exports.SUserNavDataCookie.getResStateEvtStr(component, hash, hit))
+                    } else if ( component === "searchFilter" ) {
+                        void function(){
+                            searchFilterBuffer = searchFilterBuffer || self.get("fsi") || []
+                            clearTimeout(searchFilterBufferTimer)
+                            searchFilterBufferTimer = setTimeout(function(){ searchFilterBuffer = null }, 4)
+                        }()
+                        hit = searchFilterBuffer.indexOf(hash) != -1
+                        new SEventRouter().dispatch(module.exports.SUserNavDataCookie.getResStateEvtStr(component, hash, hit))
+                    } else if ( component === "navFamily" ) {
+                        void function(){
+                            famBuffer = famBuffer || self.get("fa") || ""
+                            clearTimeout(famBufferTimer)
+                            famBufferTimer = setTimeout(function(){ famBuffer = null }, 4)
+                        }()
+                        hit = famBuffer === hash
+                        new SEventRouter().dispatch(module.exports.SUserNavDataCookie.getResStateEvtStr(component, hash, hit))
+                    }
+
+                    next()
+                })
+
+
+                new SEventRouter().when(SEARCH_EVT, function(next, vars, term){
+                    self.navSearchTerm(term)
+                    next()
+                })
+
+                function empty(next, vars){
+                    self.set("fi", [])
+                    next()
+                }
+                new SEventRouter().when(NAVRESET_VOL_EVT, empty)
+                new SEventRouter().when(NAVRESET_EVT, empty)
+
+            }(this)
+        }
+      , navFamily: function(hash, state){
+            this.set("fa", {hash: hash, state: state})
+        }
+      , navFilter: function(hash, state){
+            this.set("fi", {hash: hash, state: state})
+        }
+      , navSearchFilter: function(hash, state){
+            this.set("fsi", {hash: hash, state: state})
+        }
+      , navSearchTerm: function(str){
+            str = typeof str == "string" ? str : Object.prototype.toString.call(str)
+            this.set("q", str)
+        }
+
+      , _modelHooks: {
+            "fa": function(v){
+                if ( typeof v == "string" )
+                  return v
+
+                if ( !v.state && this.get("fa") == v.hash )
+                  return ""
+                else
+                  if ( v.state )
+                    return v.hash
+            }
+          , "fi": function(v){
+                if ( v && $.isArray(v) )
+                  return v
+                if ( v && v.constructor !== Object )
+                  return this.get("fi") || []
+
+                var arr = this.get("fi") ? this.get("fi") : []
+                var idx = arr.indexOf(v.hash)
+
+                if ( idx == -1 && v.state )
+                  arr.push(v.hash)
+                else if ( idx != -1 && !v.state )
+                    arr.splice(idx, 1)
+
+                return arr
+            }
+          , "fsi": function(v){
+                if ( v && $.isArray(v) )
+                  return v
+                if ( v && v.constructor !== Object )
+                  return this.get("fsi") || []
+
+                var arr = this.get("fsi") ? this.get("fsi") : []
+                var idx = arr.indexOf(v.hash)
+
+                if ( idx == -1 && v.state )
+                  arr.push(v.hash)
+                else if ( idx != -1 && !v.state )
+                  arr.splice(idx, 1)
+
+                return arr
+            }
+          , "q": function(v){
+                return v
+            }
+        }
+    }
+})
+
+},{"./hash":2}],2:[function(require,module,exports){
+"use strict"
+
+module.exports.hash = function(str, h, c, i, l){
+    str = typeof str === "string" ? str : Object.prototype.toString.call(str)
+    h = 5381
+    l = str.length
+    for (i = 0; i < l; i++)
+      c = str.charCodeAt(i),
+      h = ((h << 5) + h) + c
+
+    return h
+}
+
+},{}],3:[function(require,module,exports){
+window.define("modules/rlx-user-data", [
+    "utils", "lib/UID"
+  , "lib/environment", "lib/SEventRouter"
+  , "lib/Model", "lib/Cookie"
+  , "modules/rlx-history"
+], function(){
+    var m = {
+        SUserDataCookie: require("./SUserDataCookie").SUserDataCookie
+      , SUserNavDataCookie: require("./SUserDataCookie").SUserNavDataCookie
+      , SUserSessionDataCookie: require("./SUserDataCookie").SUserSessionDataCookie
+      , hash: require("./hash").hash
+    }
+
+    new m.SUserNavDataCookie
+    new m.SUserSessionDataCookie
+
+    return m
+})
+
+},{"./SUserDataCookie":1,"./hash":2}]},{},[3]);

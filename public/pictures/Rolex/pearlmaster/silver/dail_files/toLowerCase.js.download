@@ -1,0 +1,27 @@
+;(function () {
+	/*
+	 * This is an example of a JavaScript helper that runs on both client and server.
+	 * 
+	 * Important to note. There's no jQuery or require on the server, so that's why the
+	 * silly if/else statement is there at the end. 
+	 */
+	var name = "toLowerCase";
+
+	function register(Handlebars) {
+	
+		function helper(ctx, options) {
+			return ctx.toLowerCase();
+		}
+		
+		Handlebars.registerHelper(name, helper);
+
+		return helper;
+	}
+
+	
+	if (typeof define == "function") { // Running on client, define with require
+		define("tpl/helpers/" + name, ['handlebars'], register);
+	} else { // Running on server, register right away.
+		register(Handlebars);
+	}
+})();

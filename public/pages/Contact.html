@@ -1,0 +1,383 @@
+   <!-- Welcome To Aura Watches -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Aura Watches</title>
+                                        <!--Icon-->
+    <link rel="icon" href="../pictures/logo/icon.png" sizes="16x16" type="image/icon">
+                                        <!--Icon End-->
+
+                                        <!--Css Style Links-->
+<link rel="stylesheet" href="../css/stylesheet.css" type="text/css" />
+
+    <link rel="stylesheet" href="../css/Basic.css"/>
+    <link rel="stylesheet" href="../css/animate.css" />
+    <link href="https://fonts.googleapis.com/css?family=Lato:300" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+   
+    <link href="https://fonts.googleapis.com/css?family=Advent+Pro" rel="stylesheet">
+    <link href="https://cdn.rawgit.com/michalsnik/aos/2.1.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/bootstrap.min.css"/>
+    <link href="../css/w3.css" rel="stylesheet">
+    <link href="../css/extra.css" rel="stylesheet">
+
+
+        <!--Css Style Links End-->
+        <script>
+ var regname = /^[A-Za-z]+$/;
+ var regpass = /^[0-9]{4}-[0-9]{7}/;
+ var regmail = /^[a-zA-Z0-9-_. ]+?\@[a-z0-9]+?\.[a-z]{2,3}/;
+ function chk()
+ {
+	 var name = document.getElementById('nam').value;
+	 	 var pass = document.getElementById('pas').value;
+		 	 var email = document.getElementById('eml').value;
+			 if (name.match(regname))
+			 {
+document.getElementById('nerror').innerHTML='Valid Name'
+document.getElementById('nerror').style.color="green"
+			 			 if (pass.match(regpass))
+			 {
+document.getElementById('perror').innerHTML='Valid Phone'
+document.getElementById('perror').style.color="green"
+			  			 if (email.match(regmail))
+			 {
+document.getElementById('eerror').innerHTML='Valid Email'
+document.getElementById('eerror').style.color="green" ; alert("your form is submited")
+
+			 }
+			  else {
+document.getElementById('eerror').innerHTML='Invlid Email'
+document.getElementById('eerror').style.color="yellow"}
+			 }
+			 
+			  else{
+document.getElementById('perror').innerHTML='Invalid Phone'
+document.getElementById('perror').style.color="yellow"}}
+
+ else{
+document.getElementById('nerror').innerHTML='Invalid Name'
+document.getElementById('nerror').style.color="yellow"}}
+
+				 
+				 
+
+ 
+ </script>
+
+
+    </head>
+<body id="main">
+                            <!--Header-->
+    <div class="Header">
+        <div class="logodiv" style="margin-top:-15px;">
+            <img src="../pictures/logo/logo1.png" class="logo" />
+            <h1 class="compname" style="display:inline-block">AuRa Watches</h1>
+            <div class="social--icons" style="float:right;" align="right">
+  
+      <ul class="Slist">
+          <li style="float:left; padding:5px;display:inline-flex;"><input  placeholder="Searching...." id="input" style="display:none;margin-top:5%;border:2px groove white;" class="collapse" type="text" style="color:black;height:30px;margin-top:15px;padding-top:5px; margin-right:10px; border-radius:5px;" />
+
+  <li style="float:right; padding:5px;"><a onclick="tgl()" ><i ><img src="../pictures/11.png"  class="searchb" id="searchid" alt="search"></i></a></li>
+      </ul>
+  </div>
+  <div class="navupline" style="margin-top:8px;"></div>
+        <script>
+var b=0;
+function tgl()
+{
+	b++;
+	
+	if(b % 2==1)
+	{
+	
+	document.getElementById('input').style.display = "inline-block";
+	}
+	
+	else{
+		document.getElementById('input').style.display="none";
+		}
+	}
+
+</script>
+
+                            <!--navbar start-->
+       
+      
+
+                  <div id="apnanav">
+            <ul class="w3-navbar"><li><a style="color:black;font-size:22px;" class="active border" href="../index.html">House Of Aura</a> </li>
+            <li class="w3-dropdown-hover"><a href="#" style="color:black;font-size:22px;" class="border">brands</a>
+            <div  class="w3-dropdown-content w3-white w3-card-4">
+                <a href="rolex.html" style="color:black;font-size:22px;text-align:center;">Rolex</a>
+                <a href="omega.html" style="color:black;font-size:22px;text-align:center;">Omega</a>
+                <a href="cartier.html" style="color:black;font-size:22px;text-align:center;">Cartier</a>
+                <a href="gucci.html" style="color:black;font-size:22px;text-align:center;">Gucci</a>
+                <a href="rado.html" style="color:black;font-size:22px;text-align:center;">RADO</a>
+                </div>
+            </li>
+            <li class="w3-dropdown-hover"><a href="#" style="color:black;font-size:22px;" class="border">What's new</a>
+            <div  class="w3-dropdown-content w3-white w3-card-4">
+                <a href="#" style="color:black;font-size:22px;text-align:center;">Premier Classic</a>
+                <a href="#" style="color:black;font-size:22px;text-align:center;">Youngster Choice</a>
+                <a href="#" style="color:black;font-size:22px;text-align:center;">Sportz watch</a>
+            </div>
+            </li>
+            <li><a href="About.html" style="color:black;font-size:22px;"class="border" >About Us</a></li>
+            <li><a href="contact.html" style="color:black;font-size:22px;"  >Contact</a></li>
+            </ul>
+
+        </div>
+</div>
+<br>
+
+
+</div>
+
+<!--Contact us-->
+<div style="width:90%;margin:0% 5%;"; >
+    <div style="margin:0% 35%;display:inline-block;">
+    <img src="../logos/sep.png" style=""  alt=""><br>
+    <h1 style="color:#999;" align="center">Contact <br>
+    House Of AuRa 
+    </h1>
+    <img src="../logos/sep.png" style="margin-bottom:50px;"  alt="">
+    </div>
+    </div>
+       
+<div style="margin-left:20%;margin-bottom:100px;">
+    <form onsubmit="chk()">
+    <table style="width:70%;">     
+        <tr><td><label >Name *</label></td>
+<td><input type="text" id="nam" class="msg3" placeholder="Name" style="width:90%;border:2px dotted black;padding:3%;margin:3%;" /></td>
+        </tr><tr><td></td><td><label id="nerror"></label><br /></td></tr>
+<tr><td><label >Phone-Number *</label></td>
+<td><input type="text" id="pas" style="width:90%;border:2px dotted black;padding:3%;margin:3%;" class="msg3" placeholder="phone no" /></td>
+</tr><tr><td></td><td><label id="perror"></label><br /></td></tr>
+<tr><td><label >Email *</label></td>
+<td><input type="E-mail" id="eml" class="msg3" style="width:90%;border:2px dotted black;padding:3%;margin:3%;" placeholder="E-mail" /></td>
+</tr><tr><td></td><td><label id="eerror"></label><br /></td></tr>
+<tr><td><label >Your Message </label></td>
+<td><input type="text" id="msg" placeholder="messege" class="msg4" style="width:90%;border:2px dotted black;padding:3%;margin:3%;height:200px;"  style="height:200px;"/><br /></td></tr>
+<tr><td><input type="button" value="save"  onclick="chk()" class="sub2" style="margin-left:100%;background-color:#FFF; color:#000; border:
+#CCC; border:
+double 2px 
+
+
+#000000; width:40%; " /></td></tr>
+</table>
+</form>
+
+</div>
+
+  </div>
+  <div style="margin-left:5%;">
+      <div style="display:inline-block;"><h2 style="font-family: 'Georgia';
+    font-style: italic;
+    font-weight: normal;
+    text-transform: uppercase;
+    font-size: 18px;
+    color: #675a3e;
+    width: 290px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 17px;
+    margin-top: 0;
+    padding-top: 23px;
+    padding-bottom: 5px;
+    margin-bottom: 0;
+">BY TELEPHONE </h2>
+        <h2 style="font-family: 'Georgia';
+    font-style: italic;
+    font-weight: normal;
+    text-transform: uppercase;
+    font-size: 14px;
+    color: #675a3e;
+    width: 290px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 17px;
+    margin-top: 0;
+    padding-top: 23px;
+    padding-bottom: 5px;
+    margin-bottom: 0;"><i class="fa fa-phone" style="font-size:18px;"></i>&nbsp &nbsp &nbsp Pakistan - (92) 303 9085379       </h2>
+      </div>
+      <div style="display:inline-block;">
+        <h2 style="font-family: 'Georgia';
+    font-style: italic;
+    font-weight: normal;
+    text-transform: uppercase;
+    font-size: 18px;
+    color: #675a3e;
+    width: 290px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 17px;
+    margin-top: 0;
+    padding-top: 23px;
+    padding-bottom: 5px;
+    margin-bottom: 0;
+">BY MAIL  </h2>
+        <h2 style="font-family: 'Georgia';
+    font-style: italic;
+    font-weight: normal;
+    text-transform: uppercase;
+    font-size: 14px;
+    color: #675a3e;
+    width: 290px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 17px;
+    margin-top: 0;
+    padding-top: 23px;
+    padding-bottom: 5px;
+    margin-bottom: 0;"><i class="fa fa-envelope" style="font-size:18px;"></i>&nbsp &nbsp &nbsp contactme797@gmail.com     </h2>
+      </div>
+<div style="display:inline-block;">
+     <h2 style="font-family: 'Georgia';
+    font-style: italic;
+    font-weight: normal;
+    text-transform: uppercase;
+    font-size: 18px;
+    color: #675a3e;
+    width: 290px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 17px;
+    margin-top: 0;
+    padding-top: 23px;
+    padding-bottom: 5px;
+    margin-bottom: 0;
+">You Can Visit </h2>
+        <h2 style="font-family: 'Georgia';
+    font-style: italic;
+    font-weight: normal;
+    text-transform: uppercase;
+    font-size: 14px;
+    color: #675a3e;
+    width: 290px;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 17px;
+    margin-top: 0;
+    padding-top: 23px;
+    padding-bottom: 5px;
+    margin-bottom: 0;"><i class="fa fa-home" style="font-size:18px;"></i>&nbsp &nbsp &nbsp Muhammad Ali Jinnah University, Karachi.      </h2>
+</div><div style="display:inline-block;"> <p style="text-align:center;margin-top:20px;">Opening Hours</p> <p style="
+    text-align: center;margin-left: auto;
+    margin-right: auto; 
+    font-size:11px;opacity:0.5;">Monday - Friday 9:00 am - 07:00 pm (GMT +5) <br>
+Saturday 09:00 am - 05:00 pm  </p>
+  </div></div>
+
+<img src="../pictures/map.png" alt="">
+<!--<script src='https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyAbjZ5zhtarLcYw6Wv1Ex3BDTHsUBoKrnQ'></script><div style='overflow:hidden;height:401px;width:100%;'><div id='gmap_canvas' style='height:401px;width:100%;'></div><style>#gmap_canvas img{max-width:none!important;background:none!important}</style></div> <a href='https://acadooghostwriter.com/'>acadooghostwriter.com</a> <script type='text/javascript' src='https://embedmaps.com/google-maps-authorization/script.js?id=cac76f3f7db14e14c56b0abe2d2caf42b301ecc3'></script><script type='text/javascript'>function init_map(){var myOptions = {zoom:13,center:new google.maps.LatLng(24.8632639,67.07439810000005),mapTypeId: google.maps.MapTypeId.ROADMAP};map = new google.maps.Map(document.getElementById('gmap_canvas'), myOptions);marker = new google.maps.Marker({map: map,position: new google.maps.LatLng(24.8632639,67.07439810000005)});infowindow = new google.maps.InfoWindow({content:'<strong>House Of Aura </strong><br>Progressive Center, 30-A Shahrah-e-Faisal, Karachi 75400 (+92) 335 2392269<br>75400 Karachi<br>'});google.maps.event.addListener(marker, 'click', function(){infowindow.open(map,marker);});infowindow.open(map,marker);}google.maps.event.addDomListener(window, 'load', init_map);</script>-->
+<!---->
+<!--<script src='https://maps.googleapis.com/maps/api/js?v=3.exp'></script><div style='overflow:hidden;height:440px;width:1398px;'><div id='gmap_canvas' style='height:440px;width:1398px;'></div><div><small><a href="http://embedgooglemaps.com">Click here to generate your map!</a></small></div><div><small><a href="http://couponcode.ng/jumia/">Check out latest coupon in Nigeria @ couponcode.ng</a></small></div><style>#gmap_canvas img{max-width:none!important;background:none!important}</style></div><script type='text/javascript'>function init_map(){var myOptions = {zoom:14,center:new google.maps.LatLng(24.8632639,67.07439810000005),mapTypeId: google.maps.MapTypeId.ROADMAP};map = new google.maps.Map(document.getElementById('gmap_canvas'), myOptions);marker = new google.maps.Marker({map: map,position: new google.maps.LatLng(24.8632639,67.07439810000005)});infowindow = new google.maps.InfoWindow({content:'<strong>House Of Aura </strong><br>Progressive Center, 30-A Shahrah-e-Faisal, Karachi 75400<br>'});google.maps.event.addListener(marker, 'click', function(){infowindow.open(map,marker);});infowindow.open(map,marker);}google.maps.event.addDomListener(window, 'load', init_map);</script>-->
+
+
+
+
+<!--<div class="mainnl" >
+        <div class="newsletterdiv"><h1 class="subscribenl">SUBSCRIBE OUR NEWSLETTER</h1><h1 class="fupd">For More Updates...</h1><div class="newsletter"><input class="inbox" type="text" class="newslbox"><input class="subm" type="submit"></div></div>
+        <div class="social1"><h1 align="center" style="font-family:fire;font-size:50px;">Share our Page ....</h1>
+<div class="social--icons " align="center">
+  <a href="#"><img src="../icons/sg1.png" onmouseover="this.src='../icons/s1.png'" onmouseout="this.src='../icons/sg1.png'" class="s1 a2"/></a>
+ <a href="#"><img src="../icons/sg2.png" onmouseover="this.src='../icons/s2.png'" onmouseout="this.src='../icons/sg2.png'" class="s2 a2"/></a>
+ <a href="#"><img src="../icons/sg3.png" onmouseover="this.src='../icons/s3.png'" onmouseout="this.src='../icons/sg3.png'" class="s3 a2"/></a>
+ <a href="#"><img src="../icons/sg4.png" onmouseover="this.src='../icons/s4.png'" onmouseout="this.src='../icons/sg4.png'" class="s4 a2"/></a>
+ </div></div>
+</div>
+-->
+
+
+
+
+
+
+<div class="hrline"></div>
+<!--end-->
+
+    <!-- Footer Start From here -->
+<div class="footer" style="margin-left:60px;">
+<!--Rows -->
+<div class="Rows">
+  <div class="w3-row">
+  <div  class="w3-col s4 w3-left">
+    <h1 style="color:black; ">Company Info</h1>
+    <p style="font-size: 16px;margin: 10px; color:black; "> House Of Aura has been in the retail and wholesale trade of luxury goods, such as watches, fine writing instruments, handbags, fashion accessories, crystal and gift items since 1987. We pride ourselves on our ability to deliver the best prices, most varied selection and finest service for well over 25 years.<hr>
+  </div>
+  <div  class="w3-col s4 w3-center">
+    <h1 style="margin-left: 10px;color:black;  "> Customer Service</h1>
+    <ul style="font-size: 16px;margin: 0px;list-style: none;color:black; ">
+      <li ><i class="fa fa-envelope"></i> contactme797@gmail.com</li>
+      <li ><i class="fa fa-phone"></i> (+92)303 9085379</li>
+      <li ><i class="fa fa-home"></i> Muhammad Ali Jinnah University, Karachi.</li>
+      <li ><i class="fa fa-cog"></i> Service 24/7 </li>
+    </ul><br><hr>
+  </div>
+  <div  class="w3-col s4 w3-right">
+ <h1 style="margin-left: 10px;color:black; ">Support</h1>
+  <ul style="font-size: 16px;margin: 0px;list-style: none;color:black; ">
+       <li >Contact Us</li>
+       <li >About Team</li>
+       <li > About Us !</li>
+       <li >Products </li>
+     </ul>
+     <br>
+     <hr>
+  </div>
+  
+</div>
+  
+
+  
+
+<!--Footer End-->
+<div class="register"> <p align="center"  style="color:black;font-size:14px;margin-top:5px;"> Copyright&reg; House Of AuRa , All Right reserved &copy; 2017</p></div>
+
+
+
+</script>
+<script src="../js/modal.js"></script>
+<script src="../js/regularexpression.js"></script>
+<script src="../js/jquery-3.1.1.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script src="https://cdn.rawgit.com/michalsnik/aos/2.1.1/dist/aos.js"></script>
+    <script src="../js/aos.js"></script>
+                                        <!--JavaScript Links End-->
+
+                                        </body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
